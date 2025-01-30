@@ -1,0 +1,261 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+<!-- /. ROW  -->
+<div class="row">
+    <div class="col-md-6">
+        <!--   Kitchen Sink -->
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #696F6B;color: white;">
+                Herramientas
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Nombre de Herramientas</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for herramienta in herramientas %}
+                            <tr>
+                                <td>
+                                    {{herramienta.codigo}}
+                                </td>
+                                <td>
+                                    {{herramienta.nombre_h}}
+                                </td>
+                                <td class="converse">
+                                    {{herramienta.stock}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End  Kitchen Sink -->
+    </div>
+    <div class="col-md-6">
+        <!--   Basic Table  -->
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #696F6B;color: white;">
+                Empleados que tienen herramientas
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table" id="myTable2">
+                        <thead>
+                            <tr>
+                                <th>Nombre del empleado</th>
+                                <th>Nombre de herramienta</th>
+                                <th>Cantidad </th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for prestado in prestamo %}
+                            <tr>
+                                <td>
+                                    {{prestado.empleado_p}}
+                                </td>
+                                <td>{{prestado.nombreh_p}}</td>
+                                <td>
+                                    {{prestado.stock_p}}
+                                </td>
+                                <td>
+                                    {{prestado.estado}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End  Basic Table  -->
+    </div>
+</div>
+
+<div class="row">
+    <!-- <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #696F6B;color: white;">
+                Fechas de prestamo de la herramienta
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped  table-bordered table-hover" id="myTable3">
+                        <thead>
+                            <tr>
+                                <th>Nombre de la herramienta</th>
+                                <th>Fecha del prestamo</th>
+                                <th>Nombre del empleado</th>
+                                <th>Dias que no entrega</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fecha in prestadi %}
+                            <tr>
+                                <td>
+                                    {{fecha.nombreh_p}}
+                                </td>
+                                <td class="prestamo_1">
+                                    {{fecha.fecha_p}}
+                                </td>
+                                <td>
+                                    {{fecha.empleado_p}}
+                                </td>
+                                <td class="respuesta">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #696F6B;color: white;">
+                Registro demora de entrega de la herramienta
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped  table-bordered table-hover" id="myTable5">
+                        <thead>
+                            <tr>
+                                <th>Nombre del empleado</th>
+                                <th>Herramienta</th>
+                                <th>Fecha del prestamo</th>
+                                <th>Fecha de la entrega</th>
+                                <th>Dia que demoro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reporte in reporte %}
+                            <tr>
+                                <td>
+                                    {{reporte.empleado_p}}
+                                </td>
+                                <td>
+                                    {{reporte.nombreh_p}}
+                                </td>
+                                <td class="pedido">
+                                    {{reporte.fecha_p}}
+                                </td>
+                                <td class="entregado">
+                                    {{reporte.fecha_pf}}
+                                </td>
+                                <td class="mostrar">
+
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #696F6B;color: white;">
+                Comentarios de los empleados con las herramientas
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped  table-bordered table-hover" id="myTable6">
+                        <thead>
+                            <tr>
+                                <th>Nombre del empleado</th>
+                                <th>Herramienta</th>
+                                <th>Fecha de la entrega</th>
+                                <th>comentario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reporte2 in reporte2 %}
+                            <tr>
+                                <td>
+                                    {{reporte2.empleado_p}}
+                                </td>
+                                <td>
+                                    {{reporte2.nombreh_p}}
+                                </td>
+                                <td>
+                                    {{reporte2.fecha_p}}
+                                </td>
+                                <td>
+                                    {{reporte2.comentario}}
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Inicializar los DataTables
+        $('#myTable').DataTable();
+        $('#myTable2').DataTable();
+        $('#myTable3').DataTable();
+        $('#myTable5').DataTable();
+        $('#myTable6').DataTable();
+
+        // Obtener las tablas de DataTable
+        var tables = [
+            $('#myTable').DataTable(),
+            $('#myTable2').DataTable(),
+            $('#myTable3').DataTable(),
+            $('#myTable5').DataTable(),
+            $('#myTable6').DataTable()
+        ];
+
+    });
+
+</script>
+<script src="/static/js/admin/inicio1.js"></script>
+<script src="/static/js/admin/inicio2.js"></script>
+<script>
+$(document).ready(function() {
+    // Inicializar Datatable
+    let table = $('#myTable').DataTable();
+
+    // Función para actualizar el texto basado en el valor de `stock`
+    function updateStockText() {
+        let elements = document.querySelectorAll('.converse');
+        elements.forEach(element => {
+            // Obtener el valor de `herramienta.stock` que está dentro del elemento
+            let stock = parseInt(element.innerText.trim(), 10);
+            // Comprobar el valor y actualizar el texto
+            if (stock === 0) {
+                element.innerText = 'prestado';
+            } else if (stock === 1) {
+                element.innerText = 'bodega';
+            }
+        });
+    }
+
+    // Ejecutar la función en la carga inicial
+    updateStockText();
+
+    // Ejecutar la función cada vez que la tabla sea redibujada
+    table.on('draw', function() {
+        updateStockText();
+    });
+});
+</script>
+{% endblock %}

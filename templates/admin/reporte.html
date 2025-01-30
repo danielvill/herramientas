@@ -1,0 +1,226 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <form action="/admin/reporte/re_vistacompleta" method="get">
+            <Label>Reporte de Prestamos</Label>
+            <br>
+            <br>
+            <input type="text" id="vcedula" name="cedula_p" placeholder="Ingresar cedula" class="form-control"
+                style="width: 170px;">
+            <br>
+            <input type="submit" value="Filtrar" class="btn btn-primary"
+                style="background-color: #696F6B;color: white;">
+            <a href="{{ url_for('reporte.re_vistacompleta') }}" class="btn btn-primary"
+                style="background-color: #696F6B;color: white;">Completo</a>
+        </form>
+        <br>
+        <table class="table table-bordered table-hover" id="myTable">
+            <thead>
+                <tr>
+                    <th>Id de prestamo</th>
+                    <th>Nombre del empleado</th>
+                    <th>Cedula</th>
+                    <th>Codigo de herramienta</th>
+                    <th>Nombre de herramienta</th>
+                    <th>Cantidad </th>
+                    <th>Fecha de Prestamo</th>
+                    <th>Fecha de Entrega</th>
+                    <th>Estado</th>
+                    <th>Comentario</th>
+                    <th>Editar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in reporte %}
+                <tr>
+                    <td>
+                        {{item.id_p}}
+                    </td>
+                    <td>
+                        {{item.empleado_p}}
+                    </td>
+                    <td>
+                        {{item.cedula_p}}
+                    </td>
+                    <td>
+                        {{item.codigo_p}}
+                    </td>
+                    <td>
+                        {{item.nombreh_p}}
+                    </td>
+                    <td>
+                        {{item.stock_p}}
+                    </td>
+                    <td class="date1">
+                        {{item.fecha_p}}
+                    </td>
+                    <td class="date2">
+                        {{item.fecha_pf}}
+                    </td>
+                    <td class="estado">
+                        {{item.estado}}
+                    </td>
+                    <td>
+                        {{item.comentario}}
+                    </td>
+                    <td>
+                        <button type="submit" class="editar btn btn-primary"
+                            style="background-color: #696F6B;color: white;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd"
+                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="editModal" title="Editar Reporte">
+    <form id="editForm" action="" method="post">
+        <div class="form-group">
+            <div class="col">
+                <label for="">Id del Empleado</label>
+                <input type="text" id="id_p" name="id_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+                <label for="">Nombre del empleado</label>
+                <input type="text" id="empleado_p" name="empleado_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+
+                <input type="hidden" id="cedula_p" name="cedula_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+
+                <input type="hidden" id="codigo_p" name="codigo_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+
+                <input type="hidden" id="nombreh_p" name="nombreh_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+
+                <input type="hidden" id="stock_p" name="stock_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+
+                <input type="hidden" id="fecha_p" name="fecha_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+
+                <input type="hidden" id="fecha_pf" name="fecha_pf" class="form-control" readonly>
+            </div>
+            <div class="col">
+                <label for="rol">Estado</label>
+                <select name="estado" id="estado" class="form-control">
+                    <option value="Prestado">Prestado</option>
+                    <option value="Entregado">Entregado</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="rol">Comentario</label>
+                <input type="text" id="comentario" name="comentario" class="form-control">
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    // Obtén todos los elementos con la clase "estado"
+    const elementosEstado = document.querySelectorAll(".estado");
+    // Itera sobre cada elemento y verifica su contenido
+    elementosEstado.forEach((elemento) => {
+        const estadoTexto = elemento.textContent.trim();
+        if (estadoTexto === "Entregado") {
+            elemento.style.backgroundColor = "blue";
+            elemento.style.color = "white";
+        } else if (estadoTexto === "Prestado") {
+            elemento.style.backgroundColor = "red";
+            elemento.style.color = "white";
+        }
+    });
+    // Selecciona todos los elementos con la clase "date1"
+    const date1Elements = document.getElementsByClassName("date1");
+
+    // Selecciona todos los elementos con la clase "date2"
+    const date2Elements = document.getElementsByClassName("date2");
+
+    // Ahora puedes trabajar con estos elementos según tus necesidades
+    // Por ejemplo, para ocultar la parte "(tiempo universal coordinado)":
+    for (const element of date1Elements) {
+        element.textContent = element.textContent.replace(" (tiempo universal coordinado)", "");
+    }
+
+    for (const element of date2Elements) {
+        element.textContent = element.textContent.replace(" (tiempo universal coordinado)", "");
+    }
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "language": {
+                "url": "/static/js/Spanish.json"
+            }
+        });
+        var table = $('#myTable').DataTable();
+        //Cambio de english a spanish
+        // Funcionalidad de edición
+        table.on('click', '.editar', function () {
+            var row = $(this).closest('tr');
+            var data = table.row(row).data();
+            // Aquí puedes abrir el modal y llenar los campos del formulario con los datos del usuario
+            // Por ejemplo:
+            $('#id_p').val(data[0]);
+            $('#empleado_p').val(data[1]);
+            $('#cedula_p').val(data[2]);
+            $('#codigo_p').val(data[3]);
+            $('#nombreh_p').val(data[4]);
+            $('#stock_p').val(data[5]);
+            $('#fecha_p').val(data[6]);
+            $('#fecha_pf').val(data[7]);
+            $('#estado').val(data[8]);
+            $('#comentario').val(data[9]);
+            $('#editForm').attr('action', '/edit_re/' + data[0]); // Recuerda que en esta parte el 0 es la posicion selectora del codigo que estas usando en este caso es 0 ya que usas la cedula
+            $('#editModal').dialog('open');
+        });
+        // Inicializar el modal
+        $('#editModal').dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: [
+                {
+                    text: 'Guardar',
+                    click: function () {
+                        $('#editForm').submit();
+                    },
+                    // Agregar una clase al botón
+                    class: 'guardar'
+                },
+                {
+                    text: 'Cancelar',
+                    click: function () {
+                        $(this).dialog('close');
+                    },
+                    // Agregar una clase al botón
+                    class: 'cancelar'
+                }
+            ]
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+    <div class="">
+        <div class="panel panel-info">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-danger">
+                {{ messages[0] }}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <div class="panel-heading" style="background-color: #696F6B; color: white;">
+                Ingreso de Empleados
+            </div>
+            <div class="panel-body" >
+                <form action="/admin/in_empleados" method="post">
+                    <div class="form-group">
+                        <label>Ingresar cedula</label>
+                        <input class="form-control" type="number" name="cedula"  oninput="limitarEntrada()" name="cedula"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Ingresar Nombre</label>
+                        <input class="form-control" type="text" name="nombre" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ingresar Cargo</label>
+                        <input class="form-control" type="text"  name="cargo" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ingresar Telefono</label>
+                        <input class="form-control" type="number" name="telefono" />
+                    </div>
+                    <button type="submit" class="btn btn-info" style="background-color: #696F6B;color: white;">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<script src="/static/js/admin/in_empleado.js"></script>
+{% endblock %}

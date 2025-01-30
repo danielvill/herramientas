@@ -1,0 +1,218 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <table class="table table-bordered table-hover" id="myTable">
+            <thead>
+                <tr>
+                    <th>Id de prestamo</th>
+                    <th>Nombre del empleado</th>
+                    <th>Cedula</th>
+                    <th>Codigo de herramienta</th>
+                    <th>Nombre de herramienta</th>
+                    <th>Cantidad </th>
+                    <th>Id herramienta</th>
+                    <th>Fecha de Prestamo</th>
+                    <th>Fecha de Entrega</th>
+                    <th>Estado</th>
+                    <th>Comentario</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in prestamo %}
+                <tr>
+                    <td>
+                        {{item.id_p}}
+                    </td>
+                    <td>
+                        {{item.empleado_p}}
+                    </td>
+                    <td>
+                        {{item.cedula_p}}
+                    </td>
+                    <td>
+                        {{item.codigo_p}}
+                    </td>
+                    <td>
+                        {{item.nombreh_p}}
+                    </td>
+                    <td>
+                        {{item.stock_p}}
+                    </td>
+                    <td>
+                        {{item.id_h}}
+                    </td>
+                    <td>
+
+                        {{item.fecha_p}}
+                    </td>
+                    <td>
+                        {{item.fecha_pf}}
+                    </td>
+                    <td style="background-color: red;color: white;">
+                        {{item.estado}}
+                    </td>
+                    <td>
+                        {{item.comentario}}
+                    </td>
+                    <td>
+                        <button type="submit" class="editar btn btn-primary" style="background-color: #696F6B;color: white;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+                                <path d="M11 2H9v3h2z"/>
+                                <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
+                            </svg>
+                            Guardar
+                        </button>
+                    </td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="editModal" title="Enviar Prestamo">
+    <form id="editForm" action="" method="post">
+        <div class="form-group">
+            <input type="hidden" name="id_p" id="id_p"  readonly>
+            <div class="col">
+                <input type="hidden" name="empleado_p" id="empleado_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+                <input type="hidden" name="cedula_p" id="cedula_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+                <input type="hidden" name="codigo_p" id="codigo_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+                <input type="hidden" name="nombreh_p" id="nombreh_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+                <input type="hidden" name="stock_p" id="stock_p" class="form-control" readonly>
+            </div>
+            <input type="text" name="id_h" id="id_h" class="form-control" readonly>
+            <div class="col">
+                <input type="hidden" name="fecha_p" id="fecha_p" class="form-control" readonly>
+            </div>
+            <div class="col">
+                <label for="rol">Fecha de Entrega</label>
+                <input type="datetime-local"   name="fecha_pf" class="form-control" id="fecha_pf">
+            </div>
+            <div class="col">
+                <label for="rol">Estado</label>
+                <select name="estado" id="estado" class="form-control">
+                    <option value="Prestado">Prestado</option>
+                    <option value="Entregado">Entregado</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="rol">Comentario</label>
+                <input type="text" name="comentario" id="comentario" class="form-control" >
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/static/js/admin/"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "language": {
+                "url": "/static/js/Spanish.json"
+            }
+        });
+        var table = $('#myTable').DataTable();
+        //Cambio de english a spanish
+        // Funcionalidad de edición
+        table.on('click', '.editar', function () {
+            var row = $(this).closest('tr');
+            var data = table.row(row).data();
+            // Aquí puedes abrir el modal y llenar los campos del formulario con los datos del usuario
+            // Por ejemplo:
+            $('#id_p').val(data[0]);
+            $('#empleado_p').val(data[1]);
+            $('#cedula_p').val(data[2]);
+            $('#codigo_p').val(data[3]);
+            $('#nombreh_p').val(data[4]);
+            $('#stock_p').val(data[5]);
+            $('#id_h').val(data[6]);
+            $('#fecha_p').val(data[7]);
+            $('#fecha_pf').val(data[8]);
+            $('#estado').val(data[9]);
+            $('#comentario').val(data[10]);
+            $('#editForm').attr('action', '/admin/prestamo'); // Recuerda que en esta parte el 0 es la posicion selectora del codigo que estas usando en este caso es 0 ya que usas la cedula
+            $('#editModal').dialog('open');
+        });
+        // Inicializar el modal
+        $('#editModal').dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: [
+                {
+                    text: 'Guardar a Reporte',
+                    click: function () {
+                        $('#editForm').submit();
+                    },
+                    // Agregar una clase al botón
+                    class: 'guardar'
+                },
+                {
+                    text: 'Cancelar',
+                    click: function () {
+                        $(this).dialog('close');
+                    },
+                    // Agregar una clase al botón
+                    class: 'cancelar'
+                }
+            ]
+        });
+    });
+
+    $(".eliminar").click(function (event) {
+        event.preventDefault();
+        var url = $(this).attr('href'); // Guarda la URL del enlace
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¿Estás seguro de que quieres eliminar?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar!',
+            cancelButtonText: 'No, cancelar!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url; // Navega a la URL del enlace
+            }
+        });
+    });
+
+</script>
+
+<script>
+    // Obtener la fecha y hora actual
+let today = new Date();
+let dd = String(today.getDate()).padStart(2, '0');
+let mm = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0!
+let yyyy = today.getFullYear();
+
+let hh = String(today.getHours()).padStart(2, '0');
+let min = String(today.getMinutes()).padStart(2, '0');
+
+// Formatear la fecha y hora actual para el atributo min y max
+let formattedDate = `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+
+document.getElementById("fecha_pf").setAttribute("min", formattedDate);
+document.getElementById("fecha_pf").setAttribute("max", formattedDate);
+
+</script>
+
+{% endblock %}

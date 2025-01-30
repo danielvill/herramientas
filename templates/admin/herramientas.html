@@ -1,0 +1,102 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+        
+        <br>
+        <table  class="table table-bordered table-hover" id="myTable">
+            <thead>
+                <tr>
+                    <th>Id Herramienta</th>
+                    <th>Codigo</th>
+                    <th>Nombre de Herramientas</th>
+                    <th>Cantidad</th>
+                    <th>Comentario</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for herramientas in herramientas %}
+                <tr>
+                    <td>
+                        {{herramientas.id_h}}
+                    </td>
+                    <td>
+                        {{herramientas.codigo}}
+                    </td>
+                    <td>
+                        {{herramientas.nombre_h}}
+                    </td>
+                    <td>
+                        {{herramientas.stock}}
+                    </td>
+                    <td>
+                        {{herramientas.comentario}}
+                    </td>
+                    <td>
+                        <!-- Asegúrate de incluir la subcarpeta 'img' si es necesario -->
+                        <img src="{{ url_for('static', filename='img/' + herramientas.imagen) }}" alt="Imagen de herramienta" width="100">
+                        {{herramientas.imagen}}
+                    </td>
+                    <td>
+                        <button type="submit" class="editar btn btn-primary" style="background-color: #696F6B;color: white;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                        </button>
+                        <a href="{{url_for('herramientas.delete_pro', eliadpro = herramientas.id_h)}}"
+                            class="eliminar btn btn-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-x-octagon" viewBox="0 0 16 16">
+                                <path
+                                    d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1z" />
+                                <path
+                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="editModal" title="Editar Herramientas">
+    <form id="editForm" action="" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="hidden" name="id_h" id="id_h">
+            <div class="col">
+                <label for="usuario">Codigo</label> 
+                <input type="text" id="codigo" name="codigo" class="form-control" value="0" required>
+            </div>
+            <div class="col">
+                <label for="rol">Nombre de la herramienta</label>
+                <input type="text" id="nombre_h" name="nombre_h" class="form-control"  required>
+            </div>
+            <div class="col">
+                <label for="rol">Cantidad</label>
+                <input type="text" id="stock" name="stock" class="form-control" readonly>
+            </div>
+            <div class="col">
+                <label for="rol">Comentario</label>
+                <input type="text" id="comentario" name="comentario" class="form-control"  required>
+            </div>
+            <div class="col">
+                <label for="rol">Imagen</label>
+                <input type="file" id="imagen" name="imagen" class="form-control"  >
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/static/js/admin/herramientas.js">
+</script>
+{% endblock %}
