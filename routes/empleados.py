@@ -1,9 +1,26 @@
-from flask import Blueprint, render_template, request, flash, session, redirect, url_for
+from flask import Blueprint, render_template, request, flash, session, redirect, url_for,current_app,send_file
 from controllers.database import Conexion as dbase
 from modules.empleados import Empleados
 from pymongo import MongoClient
+from werkzeug.utils import secure_filename # Archivo que se tiene que importar
+import os
+
+from routes.herramientas import allowed_file
 db = dbase()
 empleados = Blueprint('empleados', __name__)
+
+# Esta ruta es para las imagenes
+@empleados.route('/alguna_ruta')
+def alguna_funcion():
+    UPLOAD_FOLDER = current_app.config['UPLOAD_FOLDER']
+    
+# codigo de verificacion de herramientas con las imagenes
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+#Este codigo es para las  imagenes
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @empleados.route('/admin/in_empleados',methods=['GET','POST'])
@@ -34,10 +51,19 @@ def inem():
             flash("El telefono ya existe")
             return redirect(url_for('empleados.inem'))
         else:
-            empleado = Empleados(cedula,nombre,cargo,telefono)
-            empleados.insert_one(empleado.EmpleadoDBCollection())
-            flash("Enviado a la base de datos")
-            return redirect(url_for('empleados.inem'))
+            if  "imagen" not in request.files:
+                    flash('No file part')
+                    return redirect(request.url)
+            file = request.files['imagen']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                file.save(file_path)
+                imagen_filename = os.path.join('img', filename)
+                empleado = Empleados(cedula,nombre,cargo,telefono,filename)
+                empleados.insert_one(empleado.EmpleadoDBCollection())
+                flash("Enviado a la base de datos")
+                return redirect(url_for('empleados.inem'))
     else:
         return render_template('admin/in_empleados.html')
 

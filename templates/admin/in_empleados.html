@@ -13,7 +13,7 @@
                 Ingreso de Empleados
             </div>
             <div class="panel-body" >
-                <form action="/admin/in_empleados" method="post">
+                <form action="/admin/in_empleados" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Ingresar cedula</label>
                         <input class="form-control" type="number" name="cedula"  oninput="limitarEntrada()" name="cedula"/>
@@ -30,6 +30,11 @@
                         <label>Ingresar Telefono</label>
                         <input class="form-control" type="number" name="telefono" />
                     </div>
+                    <div class="form-group">
+                        <label>Ingresar Foto</label>
+                        <input class="form-control" type="file" name="imagen" />
+                    </div>
+                    
                     <button type="submit" class="btn btn-info" style="background-color: #696F6B;color: white;">Enviar</button>
                 </form>
             </div>

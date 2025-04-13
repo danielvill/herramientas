@@ -42,7 +42,7 @@ def generar_pdf_vistacompleta(datos):
     left_aligned_style.alignment = 0  # 0 = TA_LEFT
 
     # Agrega la imagen
-    imagen = Image('static/img/ferre.jpg', width=100, height=100)
+    imagen = Image('static/img/logo.jpg', width=100, height=100)
     imagen.hAlign = 'CENTER'
     story.append(imagen)
     #story.append(Spacer(1, 12))
@@ -56,7 +56,7 @@ def generar_pdf_vistacompleta(datos):
     #story.append(Spacer(1, 12))
     
     # Agrega el título
-    title = Paragraph("<h3>FerreArmijos</h3>", left_aligned_style)
+    title = Paragraph("<h3>JC</h3>", left_aligned_style)
     story.append(title)
 
     # Agrega un salto de línea
@@ -145,7 +145,7 @@ def re_vistacompleta():
     left_aligned_style.alignment = 0  # 1 = TA_CENTER
 
     # Agrega la imagen
-    imagen = Image('static/img/ferre.jpg', width=100, height=110)
+    imagen = Image('static/img/logo.jpg', width=100, height=100)
     imagen.hAlign = 'CENTER'
     story.append(imagen)
     story.append(Spacer(1, 12))
@@ -158,7 +158,7 @@ def re_vistacompleta():
     # Agrega un salto de línea
     
     # Agrega el título
-    title = Paragraph("<h3>FerreArmijos</h3>", left_aligned_style)
+    title = Paragraph("<h3>JC</h3>", left_aligned_style)
     story.append(title)
 
     # Agrega un salto de línea

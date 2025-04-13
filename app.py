@@ -22,8 +22,7 @@ import os
 db = dbase()
 app = Flask(__name__)
 app.secret_key = 'herramientas14526'
-app.config['UPLOAD_FOLDER'] = 'D:/Herramientas/static/img'
-
+app.config['UPLOAD_FOLDER'] = 'D:/herramientas/static/img'
 
 
 @app.route('/crear_backup', methods=['POST'])
